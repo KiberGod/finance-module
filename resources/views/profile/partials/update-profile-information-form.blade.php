@@ -47,6 +47,24 @@
             @endif
         </div>
 
+        <div>
+            <x-input-label for="locale" :value="__('Locale')" />
+            <select id="locale" name="locale_id" class="mt-1 block w-full">
+                @if ($locales->isNotEmpty())
+                    <option value="" {{ old('locale_id', $user->settings->locale_id) === null ? 'selected' : '' }}>
+                        {{ __('Select a locale') }}
+                    </option>
+                    @foreach ($locales as $locale)
+                        <option value="{{ $locale->id }}" {{ old('locale_id', $user->settings->locale_id) == $locale->id ? 'selected' : '' }}>
+                            {{ $locale->name }}
+                        </option>
+                    @endforeach
+                @endif
+            </select>
+            <x-input-error class="mt-2" :messages="$errors->get('locale_id')" />
+            <h1>{{ __('messages.test_locales') }}</h1>
+        </div>
+
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
 

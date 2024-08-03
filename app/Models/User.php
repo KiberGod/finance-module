@@ -42,4 +42,25 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    /**
+     * Boot the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($user) {
+            $user->settings()->create([
+                'locale_id' => null,
+            ]);
+        });
+    }
+
+    public function settings()
+    {
+        return $this->hasOne(UserSetting::class);
+    }
 }
